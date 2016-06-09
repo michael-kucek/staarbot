@@ -16,5 +16,9 @@ leaving_date = datetime.strptime('14:00:00', '%H:%M:%S')
 
 def comm_school_day():
     now = datetime.now()
-    return "*%d hours, %d minutes, %d seconds*" % \
+    if now <= leaving_date:
+        return "*%d hours, %d minutes, %d seconds*" % \
            daysHoursMinutesSecondsFromSeconds(dateDiffInSeconds(now, leaving_date)) + " until school is out!"
+    else:
+        return "School was dismissed *%d hours, %d minutes, %d seconds*" % \
+           daysHoursMinutesSecondsFromSeconds(dateDiffInSeconds(leaving_date, now)) + " ago!"

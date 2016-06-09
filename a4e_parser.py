@@ -2,12 +2,12 @@ import csv
 
 
 def calc_fpa(row, index):
-    if row[index + 5] == "YES":
-        return "Adv"
-    elif row[index + 4] == "YES":
-        return "Pass"
+    if row[index + 5] == "Yes":
+        return "Advanced"
+    elif row[index + 4] == "Yes":
+        return "Passed"
     else:
-        return "Fail"
+        return "Failed"
 # E1 = 60
 # name, date, scale, raw, fpa
 def getScores(kid, index):

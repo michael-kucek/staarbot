@@ -11,15 +11,15 @@ def calc_fpa(row, index):
 # E1 = 60
 # name, date, scale, raw, fpa
 def getScores(kid, index):
-    if index == 60: test = "English 1"
-    if index == 90: test = "English 2"
-    if index == 120: test = "Algebra 1"
-    if index == 130: test = "Biology"
-    if index == 140: test = "US History"
+    if index == 60: test = "E1 "
+    if index == 90: test = "E2 "
+    if index == 120: test = "A1 "
+    if index == 130: test = "Bio"
+    if index == 140: test = "USH"
     if kid[index] != "":
         return test + " | " + kid[index] + " | " + kid[index + 2] + " | " + kid[index + 3] + " | " + calc_fpa(kid, index)
     else:
-        return "Student has not taken the " + test + " STAAR test."
+        return kid[2] + " has not taken the " + test + " test."
 
 def read_a4e(path):
     with open(path, 'r', encoding="utf8") as bigfile:
@@ -33,12 +33,12 @@ def read_a4e(path):
                 continue
     data_dict = {}
     for kid in temparray:
-        data_dict[kid[0]] = [kid[0] + " | " + kid[1] + ', ' + kid[2] + " | " + kid[3], # 0 ID, Last First, Grade
-                             getScores(kid, 60),        # 1 [English 1, date, scale, raw, fpa]
+        data_dict[kid[0]] = ['`'+kid[0] + " | " + kid[1] + ', ' + kid[2] + " | " + kid[3] + '`', # 0 ID, Last First, Grade
+                             '```' + getScores(kid, 60),        # 1 [English 1, date, scale, raw, fpa]
                              getScores(kid, 90),        # 2 [English 2, date, scale, raw, fpa]
                              getScores(kid, 120),       # 3 [Algebra 1, date, scale, raw, fpa]
                              getScores(kid, 130),       # 4 [Biology, date, scale, raw, fpa]
-                             getScores(kid, 140)]       # 5 [US History, date, scale, raw, fpa]
+                             getScores(kid, 140)+'```']       # 5 [US History, date, scale, raw, fpa]
     return data_dict
 
 data = read_a4e('data/staar data noheader.csv')

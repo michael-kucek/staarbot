@@ -5,7 +5,7 @@ import time, csv, datetime
 from staar_score_parser import convertSTAARscores
 from slackclient import SlackClient
 from a4e_parser import read_a4e
-from datetimetest import comm_school_day
+from datetimetest import comm_school_day, comm_period
 
 def csv_writer(data, path):
     with open(path, "w", newline="\n") as f:
@@ -14,7 +14,7 @@ def csv_writer(data, path):
             writer.writerow(i)
 
 # constants
-SLACK_BOT_TOKEN = 'TOKEN'
+SLACK_BOT_TOKEN = ''
 BOT_ID = 'U1F3MNK7F'
 AT_BOT = "<@" + BOT_ID + ">:"
 EXAMPLE_COMMAND = "do"
@@ -23,6 +23,7 @@ STAAR_COMMAND = 'scores'
 SCHOOL_DAY_COMMAND = 'dismissal'
 HELP_COMMAND = 'help'
 UPDATE_COMMAND = 'update'
+PERIOD_COMMAND = 'period'
 LAST_DB_UPDATE = '6/8/16'
 start_time = int(round(time.time() * 1000))
 activity_log = []
@@ -40,9 +41,8 @@ def log_event(event, user):
     csv_writer(activity_log, log_path)
 
 def comm_get_scores(message, user):
-    id = message.split(" ")[1]
-    log_event(id + " score lookup", user)
     try:
+        id = message.split(" ")[1]
         student_data = scoresDB[id]
         response = ""
         for line in student_data:
@@ -50,11 +50,14 @@ def comm_get_scores(message, user):
         return response
     except KeyError:
         error_log.append(str(id) + "searched by ")
-        return "I have no data for the id " + str(id) + ". Logging and notifying Kucek."
+        return "I have no data for the id " + str(id) + "."
+    except IndexError:
+        return "It looks like you may have forgotten to type an ID number."
 
 def comm_get_help():
     return "Available commands are as follows...\n" \
            "*@staarbot: scores [id]* - Provides a student's STAAR Scores\n" \
+           "*@staarbot: period* - Tells you how long until the end of the current period" \
            "*@staarbot: dismissal* - Tells you how long until school is out\n" \
            "*@staarbot: update* - Gives the date of the last database update"
 
@@ -92,6 +95,8 @@ def handle_command(command, channel, user):
         response = comm_get_help()
     if command.startswith(UPDATE_COMMAND):
         response = comm_update()
+    if command.startswith(PERIOD_COMMAND):
+        response = comm_period()
     slack_client.api_call("chat.postMessage", channel=channel, text=response, as_user=True)
 
 
@@ -117,6 +122,7 @@ if __name__ == "__main__":
         while True:
             command, channel, user = parse_slack_output(slack_client.rtm_read())
             if command and channel:
+                log_event(command, user)
                 handle_command(command, channel, user)
             time.sleep(READ_WEBSOCKET_DELAY)
     else:

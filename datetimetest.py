@@ -22,24 +22,27 @@ school_end = datetime.strptime('14:00:00', '%H:%M:%S')
 
 def comm_school_day():
     now = datetime.now()
-    if now >= school_end:
+    if now.time() <= school_end.time():
         return "*%d hours, %d minutes, %d seconds*" % \
            daysHoursMinutesSecondsFromSeconds(dateDiffInSeconds(now, school_end)) + " until school is out!"
     else:
         return "School was dismissed *%d hours, %d minutes, %d seconds*" % \
            daysHoursMinutesSecondsFromSeconds(dateDiffInSeconds(school_end, now)) + " ago!"
 
+
 def comm_period():
     now = datetime.now()
-    if now <= per1b and now >= per1e:
+    if now.time() <= per1e.time():
         return "*%d hours, %d minutes, %d seconds*" % \
            daysHoursMinutesSecondsFromSeconds(dateDiffInSeconds(now, per1e)) + " until the end of 1st period."
-    elif now >= per2e:
+    elif now.time() <= per2e.time():
         return "*%d hours, %d minutes, %d seconds*" % \
            daysHoursMinutesSecondsFromSeconds(dateDiffInSeconds(now, per2e)) + " until the end of 2nd period."
-    elif now >= lunche:
+    elif now.time() <= lunche.time():
         return "*%d hours, %d minutes, %d seconds*" % \
-           daysHoursMinutesSecondsFromSeconds(dateDiffInSeconds(now, per1e)) + " until the end of 1st period."
-    elif now >= per3e:
+           daysHoursMinutesSecondsFromSeconds(dateDiffInSeconds(now, lunche)) + " until the end of Lunch."
+    elif now.time() <= per3e.time():
         return "*%d hours, %d minutes, %d seconds*" % \
            daysHoursMinutesSecondsFromSeconds(dateDiffInSeconds(now, per3e)) + " until the end of 3rd period."
+    else:
+        return "School is over! Go home already!! :wink:"

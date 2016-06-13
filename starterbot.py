@@ -15,7 +15,7 @@ def csv_writer(data, path):
             writer.writerow(i)
 
 # constants
-SLACK_BOT_TOKEN = 'xoxb-49123767253-VM6ywukEcC6ejxLYsEz5zMDv'
+SLACK_BOT_TOKEN = 'Why do I always forget to clear the token before I upload?'
 BOT_ID = 'U1F3MNK7F'
 AT_BOT = "<@" + BOT_ID + ">:"
 EXAMPLE_COMMAND = "do"

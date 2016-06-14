@@ -41,4 +41,4 @@ def read_a4e(path):
                              getScores(kid, 140)+'```']       # 5 [US History, date, scale, raw, fpa]
     return data_dict
 
-data = read_a4e('data/staar data noheader.csv')
+# data = read_a4e('data/staar data noheader.csv')

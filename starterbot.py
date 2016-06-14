@@ -40,12 +40,12 @@ log_path = datetime.datetime.now().strftime("data/logs/%Y_%m_%d %H_%M log.csv")
 slack_client = SlackClient(SLACK_BOT_TOKEN)
 
 
-scoresDB = read_a4e('data/staar data noheader.csv')
-teacher_dict, student_dict, student_list = get_dicts()
+# scoresDB = read_a4e('data/staar data noheader.csv')
+# teacher_dict, student_dict, student_list = get_dicts()
 
 def log_event(event, user):
     activity_log.append([datetime.datetime.now().strftime("%Y_%m_%d %H_%M_%S"), user, event])
-    csv_writer(activity_log, log_path)
+    # csv_writer(activity_log, log_path)
 
 def comm_get_teacher_schedule(message):
     teacher = message.split(" ")[1]

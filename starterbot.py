@@ -16,7 +16,7 @@ def csv_writer(data, path):
 
 # constants
 SLACK_BOT_TOKEN = os.environ.get("SLACK_BOT_TOKEN")
-BOT_ID = ENV["BOT_ID"]
+BOT_ID = "U1F3MNK7F"
 AT_BOT = "<@" + BOT_ID + ">:"
 EXAMPLE_COMMAND = "do"
 UPTIME_COMMAND = "uptime"

@@ -1,7 +1,7 @@
 """
     Code taken from https://www.fullstackpython.com/blog/build-first-slack-bot-python.html
 """
-import time, csv, datetime
+import time, csv, datetime, os
 from staar_score_parser import convertSTAARscores
 from slackclient import SlackClient
 from a4e_parser import read_a4e
@@ -15,8 +15,8 @@ def csv_writer(data, path):
             writer.writerow(i)
 
 # constants
-# SLACK_BOT_TOKEN = 'Why do I always forget to clear the token before I upload?'
-# BOT_ID = 'U1F3MNK7F'
+SLACK_BOT_TOKEN = os.environ.get("SLACK_BOT_TOKEN")
+BOT_ID = ENV["BOT_ID"]
 AT_BOT = "<@" + BOT_ID + ">:"
 EXAMPLE_COMMAND = "do"
 UPTIME_COMMAND = "uptime"

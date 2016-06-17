@@ -1,4 +1,12 @@
 import csv
+
+app_key = 'jbja9j7g02a863n'
+app_secret = 'd81ga83ihm6jlgd'
+db_token = 'uid8tVDyeVkAAAAAAAAEHCQtaIJajOFtc62AXXKyFH6UlXmapYAXYT1YfLQy7Vua'
+
+
+# client.file
+
 def read_csv(path):
     with open(path, 'r', encoding="utf8") as bigfile:
         readbigfile = csv.reader((line.replace('\0','') for line in bigfile), delimiter=",", quotechar='"')
@@ -8,7 +16,18 @@ def read_csv(path):
                 temparray.remove(row)
         return temparray
 
+raw_gs = read_csv('data/failurereport.csv')
 raw_hss = read_csv('data/summer hss.csv')
+
+def grade_dict(grades):
+    gd = {}
+
+    for row in grades[1::]:
+        gd[int(row[0]), int(row[5][-1])] = str(row[7])
+    return gd
+
+gdict = grade_dict(raw_gs)
+
 
 def teacher_schedule_dict_creator(hss):
     name_dict = {}
@@ -31,7 +50,7 @@ def teacher_schedule_dict_creator(hss):
             name_dict[current_teacher][2][current_period - 1][1] += 1
     return name_dict
 
-def student_sched_dict_creator(hss):
+def student_sched_dict_creator(hss, gd):
     stud_dict = {}
     stud_list = []
     for row in hss:
@@ -50,11 +69,14 @@ def student_sched_dict_creator(hss):
         current_teacher = row[16].split(',')[0].split(' ')[0]
         current_room = row[17].split(' (')[0]
         current_class = row[15].split('-')[0]
+        try: current_grade = gd[id, current_period]
+        except KeyError: current_grade = "NA"
         if id not in stud_dict:
-            stud_dict[id] = [id, name, [['', '', ''], ['', '', ''], ['', '', '']]]
+            stud_dict[id] = [id, name, [['', '', '', ''], ['', '', '', ''], ['', '', '', '']]]
         stud_dict[id][2][current_period - 1][0] = current_room
         stud_dict[id][2][current_period - 1][1] = current_teacher
         stud_dict[id][2][current_period - 1][2] = current_class.title().replace(" ","")
+        stud_dict[id][2][current_period - 1][3] = current_grade
     return stud_dict, stud_list
 
 def student_search(stud_list, q):
@@ -64,7 +86,7 @@ def student_search(stud_list, q):
 teacher_dict = teacher_schedule_dict_creator(raw_hss)
 # for thing in teacher_dict:
 #     print(teacher_dict[thing])
-student_dict, student_list = student_sched_dict_creator(raw_hss)
+student_dict, student_list = student_sched_dict_creator(raw_hss, gdict)
 
 # for thing in student_dict:
 #     print(student_dict[thing])

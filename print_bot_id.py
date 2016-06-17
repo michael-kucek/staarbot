@@ -2,8 +2,8 @@ import os
 
 from slackclient import SlackClient
 
-SLACK_BOT_TOKEN = 'xoxb-49123767253-UDGsdyimhRQP6OAsxjbVfLu4'
-BOT_NAME = 'bottest'
+SLACK_BOT_TOKEN = 'xoxb-51514364678-Aq9nqq0to2DdBRtcZoriR3HU'
+BOT_NAME = 'tigerbot'
 BOT_ID = 'U1F3MNK7F'
 
 slack_client = SlackClient(SLACK_BOT_TOKEN)

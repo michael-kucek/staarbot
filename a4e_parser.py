@@ -11,6 +11,7 @@ def calc_fpa(row, index):
 # E1 = 60
 # name, date, scale, raw, fpa
 def getScores(kid, index):
+    scores_array = []
     if index == 60: test = "E1 "
     if index == 90: test = "E2 "
     if index == 120: test = "A1 "
@@ -41,4 +42,4 @@ def read_a4e(path):
                              getScores(kid, 140)+'```']       # 5 [US History, date, scale, raw, fpa]
     return data_dict
 
-# data = read_a4e('data/staar data noheader.csv')
+data = read_a4e('data/staar data noheader.csv')
